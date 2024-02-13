@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = 'react_calculators'
-        GITHUB_REPO_URL = 'https://github.com/charvyiiitb/spe-mini-project.git'
+        GITHUB_REPO_URL = 'https://github.com/Charvyk/spe-mini-project.git'
     }
 
     stages {
