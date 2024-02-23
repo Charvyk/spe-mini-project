@@ -3,6 +3,8 @@
   hosts: localhost
   remote_user: charvykoshta
   become: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
     - name: Pull Docker Image
       docker_image:
@@ -18,5 +20,10 @@
       service:
         name: docker
         state: started
+
+   - name: Remove existing container if running
+      shell: docker rm -f react_calculators
+      ignore_errors: true
+    
     - name: Running container
       shell: docker run -it -d --name react_calculators charvykoshta/react_calculators
