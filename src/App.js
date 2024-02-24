@@ -1,12 +1,57 @@
 import React, { useState } from 'react';
 import './App.css';
 
-
-const App= () => {
+const App = () => {
   const [display, setDisplay] = useState('0');
-  const [currentValue, setCurrentValue] = useState(null);
-  const [operator, setOperator] = useState(null);
 
+  // Function to handle different operations
+  const handleOperation = (op) => {
+    try {
+      switch (op) {
+        // Square root function
+        case 'sqrt':
+          if (parseFloat(display) < 0) {
+            throw new Error('Invalid input for square root');
+          }
+          setDisplay(Math.sqrt(parseFloat(display)).toString());
+          break;
+        // Factorial function
+        case 'factorial':
+          const factorial = (num) => {
+            if (num < 0) throw new Error('Invalid input for factorial');
+            if (num === 0 || num === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= num; i++) {
+              result *= i;
+            }
+            return result;
+          };
+          setDisplay(factorial(parseInt(display)).toString());
+          break;
+        // Natural logarithm function
+        case 'ln':
+          if (parseFloat(display) <= 0) {
+            throw new Error('Invalid input for natural logarithm');
+          }
+          setDisplay(Math.log(parseFloat(display)).toString());
+          break;
+        // Power function
+        case 'power':
+          const [x, b] = display.split(',');
+          if (isNaN(parseFloat(x)) || isNaN(parseFloat(b))) {
+            throw new Error('Invalid input for power function');
+          }
+          setDisplay(Math.pow(parseFloat(x), parseFloat(b)).toString());
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      setDisplay(`Error: ${error.message}`);
+    }
+  };
+
+  // Function to handle number button click
   const handleNumberClick = (num) => {
     if (display === '0') {
       setDisplay(num.toString());
@@ -15,73 +60,28 @@ const App= () => {
     }
   };
 
-  const handleOperatorClick = (op) => {
-    setCurrentValue(parseFloat(display));
-    setOperator(op);
-    setDisplay('0');
-  };
-
-  const handleEqualClick = () => {
-    if (operator && currentValue !== null) {
-      const newValue = parseFloat(display);
-      let result;
-      switch (operator) {
-        case '+':
-          result = currentValue + newValue;
-          break;
-        case '-':
-          result = currentValue - newValue;
-          break;
-        case '*':
-          result = currentValue * newValue;
-          break;
-        case '/':
-          result = currentValue / newValue;
-          break;
-        case '^':
-          result = Math.pow(currentValue, newValue);
-          break;
-        case 'log':
-          result = Math.log(currentValue) / Math.log(newValue);
-          break;
-        default:
-          return;
-      }
-      setDisplay(result.toString());
-      setCurrentValue(null);
-      setOperator(null);
-    }
-  };
-
-  const handleClearClick = () => {
-    setDisplay('0');
-    setCurrentValue(null);
-    setOperator(null);
-  };
-
+  // JSX for rendering the calculator UI
   return (
     <div className="calculator">
-      <h1>IIIT B Calculator</h1>
+      <h1>Scientific Calculator</h1>
       <div className="display">{display}</div>
       <div className="buttons">
+        {/* Scientific operation buttons */}
+        <button onClick={() => handleOperation('sqrt')}>√</button>
+        <button onClick={() => handleOperation('factorial')}>!</button>
+        <button onClick={() => handleOperation('ln')}>ln</button>
+        <button onClick={() => handleOperation('power')}>^</button>
+        {/* Number buttons */}
         <button onClick={() => handleNumberClick(1)}>1</button>
         <button onClick={() => handleNumberClick(2)}>2</button>
         <button onClick={() => handleNumberClick(3)}>3</button>
-        <button onClick={() => handleOperatorClick('+')}>+</button>
         <button onClick={() => handleNumberClick(4)}>4</button>
         <button onClick={() => handleNumberClick(5)}>5</button>
         <button onClick={() => handleNumberClick(6)}>6</button>
-        <button onClick={() => handleOperatorClick('-')}>-</button>
         <button onClick={() => handleNumberClick(7)}>7</button>
         <button onClick={() => handleNumberClick(8)}>8</button>
         <button onClick={() => handleNumberClick(9)}>9</button>
-        <button onClick={() => handleOperatorClick('*')}>*</button>
         <button onClick={() => handleNumberClick(0)}>0</button>
-        <button onClick={() => handleEqualClick()}>=</button>
-        <button onClick={() => handleOperatorClick('/')}>/</button>
-        <button onClick={() => handleOperatorClick('^')}>^</button>
-        <button onClick={() => handleOperatorClick('log')}>log</button>
-        <button onClick={() => handleClearClick()}>C</button>
       </div>
     </div>
   );
