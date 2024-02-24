@@ -3,6 +3,7 @@ import './App.css';
 
 const App = () => {
   const [display, setDisplay] = useState('0');
+  const [input, setInput] = useState('');
 
   // Function to handle different operations
   const handleOperation = (op) => {
@@ -60,6 +61,18 @@ const App = () => {
     }
   };
 
+  // Function to handle equal button click
+  const handleEqualClick = () => {
+    handleOperation(input);
+    setInput('');
+  };
+
+  // Function to handle clear button click
+  const handleClearClick = () => {
+    setDisplay('0');
+    setInput('');
+  };
+
   // JSX for rendering the calculator UI
   return (
     <div className="calculator">
@@ -82,6 +95,9 @@ const App = () => {
         <button onClick={() => handleNumberClick(8)}>8</button>
         <button onClick={() => handleNumberClick(9)}>9</button>
         <button onClick={() => handleNumberClick(0)}>0</button>
+        {/* Equal and clear buttons */}
+        <button onClick={handleEqualClick}>=</button>
+        <button onClick={handleClearClick}>Clear</button>
       </div>
     </div>
   );
