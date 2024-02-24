@@ -4,6 +4,7 @@ import './App.css';
 const App = () => {
   const [display, setDisplay] = useState('0');
   const [input, setInput] = useState('');
+  const [operator, setOperator] = useState(null);
 
   // Function to handle different operations
   const handleOperation = (op) => {
@@ -38,16 +39,16 @@ const App = () => {
           break;
         // Power function
         case 'power':
-        // 'input' state is assumed to store the base
-        // 'display' state stores the exponent
-        if (isNaN(parseFloat(display)) || isNaN(parseFloat(input))) {
-          throw new Error('Invalid input for power function');
-        }
-        setDisplay(Math.pow(parseFloat(input), parseFloat(display)).toString());
-        setInput('');
-        break;
+          if (!input || !display) {
+            throw new Error('Enter base and exponent');
+          }
+          setOperator(op);
+          setInput(display); // Store the current display value as the base
+          setDisplay('0'); // Clear the display for entering the exponent
+          return; // Exit the function after setting operator
+
         default:
-          break;
+          throw new Error('Invalid operation');
       }
     } catch (error) {
       setDisplay(`Error: ${error.message}`);
@@ -65,14 +66,25 @@ const App = () => {
 
   // Function to handle equal button click
   const handleEqualClick = () => {
-    handleOperation(input);
-    setInput('');
+    try {
+      if (operator === 'power' && input && display) {
+        setDisplay(Math.pow(parseFloat(input), parseFloat(display)).toString());
+        setInput('');
+        setOperator(null);
+        return; // Exit the function after calculation
+      }
+      handleOperation(input);
+      setInput('');
+    } catch (error) {
+      setDisplay(`Error: ${error.message}`);
+    }
   };
 
   // Function to handle clear button click
   const handleClearClick = () => {
     setDisplay('0');
     setInput('');
+    setOperator(null);
   };
 
   // JSX for rendering the calculator UI
@@ -106,3 +118,4 @@ const App = () => {
 };
 
 export default App;
+
