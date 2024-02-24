@@ -20,10 +20,10 @@
       service:
         name: docker
         state: started
-
-   - name: Remove existing container if running
+    
+    - name: Remove existing container if running
       shell: docker rm -f react_calculators
       ignore_errors: true
-    
+
     - name: Running container
       shell: docker run -it -d --name react_calculators charvykoshta/react_calculators
