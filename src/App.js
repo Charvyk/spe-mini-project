@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 
-const Calculator = () => {
+const App= () => {
   const [display, setDisplay] = useState('0');
   const [currentValue, setCurrentValue] = useState(null);
   const [operator, setOperator] = useState(null);
@@ -87,4 +87,4 @@ const Calculator = () => {
   );
 };
 
-export default Calculator;
+export default App;
