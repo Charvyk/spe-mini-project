@@ -7,7 +7,7 @@ test('renders calculator with initial display value', () => {
   debug(); // Print out the rendered component for inspection
   console.log(container.innerHTML); // Log the container's HTML
   console.log(document.body.innerHTML); // Log the entire document body's HTML
-  const displayElement = getByText(/IIIT B Calculator/i);
+  const displayElement = getByText(/Scientific Calculator/i);
   expect(displayElement).toBeInTheDocument();
 });
 
