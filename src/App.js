@@ -38,12 +38,14 @@ const App = () => {
           break;
         // Power function
         case 'power':
-          const [x, b] = display.split(',');
-          if (isNaN(parseFloat(x)) || isNaN(parseFloat(b))) {
-            throw new Error('Invalid input for power function');
-          }
-          setDisplay(Math.pow(parseFloat(x), parseFloat(b)).toString());
-          break;
+        // 'input' state is assumed to store the base
+        // 'display' state stores the exponent
+        if (isNaN(parseFloat(display)) || isNaN(parseFloat(input))) {
+          throw new Error('Invalid input for power function');
+        }
+        setDisplay(Math.pow(parseFloat(input), parseFloat(display)).toString());
+        setInput('');
+        break;
         default:
           break;
       }
